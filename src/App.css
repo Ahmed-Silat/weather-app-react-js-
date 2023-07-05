@@ -1,6 +1,6 @@
 .wetherBg {
   background: url("https://www.accuweather.com/images/hero/4/1440x450.jpg");
-  height: 50vh;
+  height: auto;
   display: flex;
   align-items: center;
   flex-direction: column;
