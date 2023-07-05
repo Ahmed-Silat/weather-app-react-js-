@@ -4,28 +4,16 @@ import { useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "../App.css";
 import WeatherBox from "./weatherBox";
+import { API_URL } from "./constants";
+import { getWeatherDataByCityName } from "./service";
 
 export default function Button(props) {
-  const apiKey = "1be544e55f8d80d9a557faff52a0e60d";
-
   const [data, setData] = useState({});
 
-  const getWeatherDetails = (cityName) => {
+  const getWeatherDetails = async (cityName) => {
     if (!cityName) return;
-    const apiURL =
-      "https://api.openweathermap.org/data/2.5/weather?q=" +
-      cityName +
-      "&appid=" +
-      apiKey;
-    axios
-      .get(apiURL)
-      .then((res) => {
-        console.log("response", res.data);
-        setData(res.data);
-      })
-      .catch((err) => {
-        console.log("error", err);
-      });
+    const { data } = await getWeatherDataByCityName(cityName);
+    setData(data);
   };
 
   const handleSearch = () => {
@@ -33,15 +21,15 @@ export default function Button(props) {
   };
   return (
     <>
-        <div className="d-grid gap-3 col-4 mt-4">
-          <button
-            className="btn btn-primary"
-            type="button"
-            onClick={handleSearch}
-          >
-            Search
-          </button>
-        </div>
+      <div className="d-grid gap-3 col-4 mt-4">
+        <button
+          className="btn btn-primary"
+          type="button"
+          onClick={handleSearch}
+        >
+          Search
+        </button>
+      </div>
       <WeatherBox data={data} />
     </>
   );
